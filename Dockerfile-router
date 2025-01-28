@@ -1,0 +1,34 @@
+# Dockerfile-router
+
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y openssh-server sudo netcat-openbsd iptables iptables-persistent nginx && \
+    mkdir /var/run/sshd
+
+# Set root password (replace 'your_password' with a strong password)
+RUN echo 'root:h0fk!fnDKls' | chpasswd
+
+# Configure SSH to allow root login and password authentication
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Create the /home/gnasseri directory
+RUN mkdir -p /home/gnasseri
+
+# Set permissions for shared directory
+RUN chown -R www-data:www-data /home/gnasseri && \
+    chmod -R 755 /home/gnasseri
+
+# Copy the setup script into the image
+COPY setup-r.sh /home/gnasseri/setup-r.sh
+
+# Make the setup script executable
+RUN chmod +x /home/gnasseri/setup-r.sh
+
+# Expose SSH port
+EXPOSE 22
+
+# Start SSH and keep the container running
+CMD ["/bin/bash", "-c", "/home/gnasseri/setup-r.sh && tail -f /dev/null"]

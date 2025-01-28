@@ -1,0 +1,17 @@
+# Dockerfile-common
+
+FROM ubuntu:latest
+
+# Install necessary packages
+RUN apt-get update && \
+    apt-get install -y sudo netcat-openbsd iptables iptables-persistent iproute2 vim dnsutils
+
+# Create the /home/gnasseri directory
+RUN mkdir -p /home/gnasseri
+
+# Set permissions for shared directory
+RUN chown -R root:root /home/gnasseri && \
+    chmod -R 755 /home/gnasseri
+
+# Keep the container running
+CMD tail -f /dev/null
