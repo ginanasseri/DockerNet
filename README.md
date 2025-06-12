@@ -5,10 +5,10 @@ Virtual network of Docker containers simulating two hosts communicating through 
 ## How to Set Up 
 
 1. Ensure Docker is installed and running.
-2. Update volume paths in `docker-compose.yml` to match your system (replace `/Users/ginanasseri/` with your local project path).
+2. Update volume paths in `docker-compose.yml` to your path (replace `/Users/ginanasseri/` with your local project path).
 3. Run `docker-compose build` to build the images.
 4. Run `docker-compose up -d` to start the containers in the background.
-5. In separate terminals, start interactive sessions in each container:
+5. In separate terminals, start each container:
     - Terminal 1: `docker exec -it host1 /bin/bash`
     - Terminal 2: `docker exec -it host2 /bin/bash`
     - Terminal 3: `docker exec -it router /bin/bash`
